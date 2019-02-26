@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.bus.mapper.InportMapper">
+    <resultMap id="BaseResultMap" type="com.cxs.bus.domain.Inport">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="paytype" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="inporttime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="operateperson" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="inportprice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+            <arg column="providerid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="goodsid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, paytype, inporttime, operateperson, number, remark, inportprice, providerid, 
+    goodsid
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bus_inport
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bus_inport
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.cxs.bus.domain.Inport">
+    insert into bus_inport (id, paytype, inporttime, 
+      operateperson, number, remark, 
+      inportprice, providerid, goodsid
+      )
+    values (#{id,jdbcType=INTEGER}, #{paytype,jdbcType=VARCHAR}, #{inporttime,jdbcType=TIMESTAMP}, 
+      #{operateperson,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{inportprice,jdbcType=DOUBLE}, #{providerid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.cxs.bus.domain.Inport">
+        insert into bus_inport
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="paytype != null">
+                paytype,
+            </if>
+            <if test="inporttime != null">
+                inporttime,
+            </if>
+            <if test="operateperson != null">
+                operateperson,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="inportprice != null">
+                inportprice,
+            </if>
+            <if test="providerid != null">
+                providerid,
+            </if>
+            <if test="goodsid != null">
+                goodsid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="paytype != null">
+                #{paytype,jdbcType=VARCHAR},
+            </if>
+            <if test="inporttime != null">
+                #{inporttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operateperson != null">
+                #{operateperson,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="inportprice != null">
+                #{inportprice,jdbcType=DOUBLE},
+            </if>
+            <if test="providerid != null">
+                #{providerid,jdbcType=INTEGER},
+            </if>
+            <if test="goodsid != null">
+                #{goodsid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cxs.bus.domain.Inport">
+        update bus_inport
+        <set>
+            <if test="paytype != null">
+                paytype = #{paytype,jdbcType=VARCHAR},
+            </if>
+            <if test="inporttime != null">
+                inporttime = #{inporttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operateperson != null">
+                operateperson = #{operateperson,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="inportprice != null">
+                inportprice = #{inportprice,jdbcType=DOUBLE},
+            </if>
+            <if test="providerid != null">
+                providerid = #{providerid,jdbcType=INTEGER},
+            </if>
+            <if test="goodsid != null">
+                goodsid = #{goodsid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cxs.bus.domain.Inport">
+    update bus_inport
+    set paytype = #{paytype,jdbcType=VARCHAR},
+      inporttime = #{inporttime,jdbcType=TIMESTAMP},
+      operateperson = #{operateperson,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      inportprice = #{inportprice,jdbcType=DOUBLE},
+      providerid = #{providerid,jdbcType=INTEGER},
+      goodsid = #{goodsid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <resultMap id="MyBaseResultMap" type="com.cxs.bus.domain.Inport" extends="BaseResultMap">
+        <result column="goodsname" property="goodsname"/>
+        <result column="providername" property="providername"/>
+    </resultMap>
+
+
+    <select id="queryAllInport" resultMap="MyBaseResultMap">
+        SELECT
+        t1.*,
+        t2.goodsname,
+        t3.providername
+        FROM
+        bus_inport t1
+        INNER JOIN bus_goods t2
+        INNER JOIN bus_provider t3 ON ( t1.goodsid = t2.id AND t1.providerid = t3.id )
+        <where>
+            <if test="goodsname!=null and goodsname!=''">
+                and goodsname like concat("%",#{goodsname},"%")
+            </if>
+            <if test="providername!=null and providername!=''">
+                and providername like concat("%",#{providername},"%")
+            </if>
+            <if test="startTime!=null">
+                and inporttime >= #{startTime}
+            </if>
+            <if test="endTime!=null ">
+                and inporttime <![CDATA[<=]]> #{endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

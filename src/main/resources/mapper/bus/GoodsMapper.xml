@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.bus.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.cxs.bus.domain.Goods">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="goodsname" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="produceplace" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="size" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="goodspackage" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="productcode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="promitcode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+            <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="dangernum" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="goodsimg" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="available" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="providerid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, goodsname, produceplace, size, goodspackage, productcode, promitcode, description, 
+    price, number, dangernum, goodsimg, available, providerid
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bus_goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bus_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.cxs.bus.domain.Goods">
+    insert into bus_goods (id, goodsname, produceplace, 
+      size, goodspackage, productcode, 
+      promitcode, description, price, 
+      number, dangernum, goodsimg, 
+      available, providerid)
+    values (#{id,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, #{produceplace,jdbcType=VARCHAR}, 
+      #{size,jdbcType=VARCHAR}, #{goodspackage,jdbcType=VARCHAR}, #{productcode,jdbcType=VARCHAR}, 
+      #{promitcode,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{number,jdbcType=INTEGER}, #{dangernum,jdbcType=INTEGER}, #{goodsimg,jdbcType=VARCHAR}, 
+      #{available,jdbcType=INTEGER}, #{providerid,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.cxs.bus.domain.Goods">
+        insert into bus_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="goodsname != null">
+                goodsname,
+            </if>
+            <if test="produceplace != null">
+                produceplace,
+            </if>
+            <if test="size != null">
+                size,
+            </if>
+            <if test="goodspackage != null">
+                goodspackage,
+            </if>
+            <if test="productcode != null">
+                productcode,
+            </if>
+            <if test="promitcode != null">
+                promitcode,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="dangernum != null">
+                dangernum,
+            </if>
+            <if test="goodsimg != null">
+                goodsimg,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+            <if test="providerid != null">
+                providerid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="goodsname != null">
+                #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="produceplace != null">
+                #{produceplace,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="goodspackage != null">
+                #{goodspackage,jdbcType=VARCHAR},
+            </if>
+            <if test="productcode != null">
+                #{productcode,jdbcType=VARCHAR},
+            </if>
+            <if test="promitcode != null">
+                #{promitcode,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=INTEGER},
+            </if>
+            <if test="dangernum != null">
+                #{dangernum,jdbcType=INTEGER},
+            </if>
+            <if test="goodsimg != null">
+                #{goodsimg,jdbcType=VARCHAR},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=INTEGER},
+            </if>
+            <if test="providerid != null">
+                #{providerid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cxs.bus.domain.Goods">
+        update bus_goods
+        <set>
+            <if test="goodsname != null">
+                goodsname = #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="produceplace != null">
+                produceplace = #{produceplace,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                size = #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="goodspackage != null">
+                goodspackage = #{goodspackage,jdbcType=VARCHAR},
+            </if>
+            <if test="productcode != null">
+                productcode = #{productcode,jdbcType=VARCHAR},
+            </if>
+            <if test="promitcode != null">
+                promitcode = #{promitcode,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="dangernum != null">
+                dangernum = #{dangernum,jdbcType=INTEGER},
+            </if>
+            <if test="goodsimg != null">
+                goodsimg = #{goodsimg,jdbcType=VARCHAR},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+            <if test="providerid != null">
+                providerid = #{providerid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cxs.bus.domain.Goods">
+    update bus_goods
+    set goodsname = #{goodsname,jdbcType=VARCHAR},
+      produceplace = #{produceplace,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      goodspackage = #{goodspackage,jdbcType=VARCHAR},
+      productcode = #{productcode,jdbcType=VARCHAR},
+      promitcode = #{promitcode,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      number = #{number,jdbcType=INTEGER},
+      dangernum = #{dangernum,jdbcType=INTEGER},
+      goodsimg = #{goodsimg,jdbcType=VARCHAR},
+      available = #{available,jdbcType=INTEGER},
+      providerid = #{providerid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <resultMap id="MyBaseResultMap" type="com.cxs.bus.domain.Goods" extends="BaseResultMap">
+        <result column="providername" property="providername"/>
+    </resultMap>
+    <select id="queryAllGoods" resultMap="MyBaseResultMap">
+        SELECT t1.*,t2.providername from bus_goods t1 LEFT JOIN bus_provider t2 on(t1.providerid=t2.id)
+        <where>
+            AND t1.available=1
+            <if test="goodsname!=null and goodsname!=''">
+                and goodsname like concat("%",#{goodsname},"%")
+            </if>
+            <if test="productcode!=null and productcode!=''">
+                and productcode like concat("%",#{productcode},"%")
+            </if>
+            <if test="size!=null and size!=''">
+                and size like concat("%",#{size},"%")
+            </if>
+        </where>
+    </select>
+
+</mapper>

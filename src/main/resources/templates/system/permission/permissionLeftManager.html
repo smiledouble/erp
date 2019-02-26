@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>菜单管理-树</title>
+        <link rel="stylesheet" href="/resources/zTree/css/metroStyle/metroStyle.css" type="text/css">
+        <script type="text/javascript" src="/resources/zTree/js/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="/resources/zTree/js/jquery.ztree.core.js"></script>
+    </head>
+    <body>
+        <div id="treeMenus" class="ztree"></div>
+    </body>
+    <script type="text/javascript">
+        function zTreeOnClick(event, treeId, treeNode) {
+            window.parent.main.reloadTable(treeNode.id);
+        };
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+
+        function initMenuTree() {
+            $.post("/menu/loadMenuLeftTreeJson", function (zNodes) {
+                $.fn.zTree.init($("#treeMenus"), setting, zNodes);
+            });
+        }
+
+        initMenuTree();
+    </script>
+</html>

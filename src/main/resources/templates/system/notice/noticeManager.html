@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>系统公告</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/resources/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/resources/css/public.css" media="all"/>
+</head>
+<body class="childrenBody">
+<!-- 查询开始 -->
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>查询条件</legend>
+</fieldset>
+<form class="layui-form" id="searchFrm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">新闻标题</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">操作员</label>
+            <div class="layui-input-inline">
+                <input type="text" name="opername" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="startDate" id="startDate" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="endDate" id="endDate" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center;">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="doSearch">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<!-- 查询结束 -->
+<!-- 数据表格开始 -->
+<table class="layui-hide" id="logInfoList" lay-filter="logInfoList"></table>
+<div id="toolBar" style="display: none;" lay-filter="toolBar">
+    <button type="button" class="layui-btn  layui-btn-sm layui-btn-danger" lay-event="update">编辑</button>
+    <button type="button" class="layui-btn  layui-btn-sm layui-btn-danger" lay-event="view">查看</button>
+
+    <button type="button" class="layui-btn  layui-btn-sm layui-btn-danger" lay-event="delete">删除</button>
+</div>
+<!-- 数据表格结束 -->
+<div id="tableBar" style="display: none;" lay-filter="tableBar">
+    <button type="button" class="layui-btn  layui-btn-sm layui-btn-danger" lay-event="addNotice">发布</button>
+</div>
+
+
+<div id="addAndUpdateNotice" style="display: none;">
+    <form method="post" lay-filter="dataFrm" id="dataFrm" class="layui-form">
+        <input type="hidden" name="id">
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">新闻标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" placeholder="请输入标题" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">新闻内容</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" id="doSubmit" lay-filter="doSubmit">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="showNoticeContent" style="padding: 10px;display: none;">
+    <h2 align="center" id="showTitle"></h2>
+    <hr>
+    <div style="text-align: right;">
+        发布时间:<span id="showTime"></span>
+        发布人:<span id="showOpername"></span>
+    </div>
+    <hr>
+    <hr>
+    <div id="showContent">
+    </div>
+</div>
+
+<script src="/resources/layui/layui.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    layui.use(['element', 'layer', 'jquery', 'form', 'table', 'laydate', 'layedit'],
+        function () {
+            var element = layui.element;
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            var layedit = layui.layedit;
+            var form = layui.form;
+            var table = layui.table;
+            var laydate = layui.laydate;
+            //渲染时间选择器
+            laydate.render({
+                elem: '#startDate',
+                type: 'datetime'
+            });
+            laydate.render({
+                elem: '#endDate',
+                type: 'datetime'
+            });
+            //渲染富文本
+
+            var tableIns = table.render({
+                elem: '#logInfoList'  //指渲染的目标
+                , url: '/notice/loadAllNotice'//请求地址
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度
+                , height: 'full-200'//设置高度
+                , page: true//开启分页
+                , title: "用户列表"  //设置导出execl时的标题
+                , text: "查询无数据" //如果列表里面数据为空时显示的数据
+                , toolbar: "#tableBar"//设置显示工具条并设置表头左边的工具类
+                , defaultToolbar: ['filter', 'print']  //设置默认工具条的显示和顺序
+                , cols: [ [
+                    {type: 'checkbox'}
+                    , {field: 'id', title: 'ID', sort: true, align: "center"}
+                    , {field: 'title', title: '新闻标题', align: "center"}
+                    , {field: 'opername', title: '发布人', align: "center"}
+                    , {field: 'content', title: '内容', hide: true, align: "center"}
+                    , {field: 'createtime', title: '发布时间', align: "center"}
+                    , {width: 200, title: '操作', toolbar: "#toolBar", align: "center", fixed: "right"}
+                ] ]
+            });
+
+            //查询
+            $("#doSearch").click(function () {
+                var params = $("#searchFrm").serialize();
+                tableIns.reload({url: '/notice/loadAllNotice?' + params});
+            });
+
+            var url;
+            var index;
+            var edit;
+
+            //监听表头工具栏的时间
+            table.on('toolbar(logInfoList)', function (obj) {
+                switch (obj.event) {
+                    case 'addNotice':
+                        addNotice();
+                        break;
+                }
+            });
+
+            //监听行工具栏的事件
+            table.on('tool(logInfoList)', function (obj) {
+                var data = obj.data; //获得当前行数据
+                switch (obj.event) {
+                    case 'update':
+                        updateNotice(data);
+                        break;
+                    case 'delete':
+                        deleteNotice(data);
+                        break;
+                    case 'view':
+                        showNotice(data);
+                        break;
+                }
+            });
+
+            //添加的方法
+            function addNotice() {
+                url = "/notice/addNotice";
+                index = layer.open({
+                    type: 1,
+                    title: '发布新闻',
+                    content: $("#addAndUpdateNotice"),
+                    area: ["800px", "600px"],
+                    maxmin: true,
+                    shadeClose: true,
+                    anim: 3,
+                    skin: 'layui-layer-molv'//设置皮肤
+                    , success: function () {
+                        $("#dataFrm")[0].reset();
+                        edit=  layedit.build("LAY_demo_editor");
+                        form.render();
+                    }
+                });
+            }
+
+            //修改的方法
+            function updateNotice(data) {
+                url = "/notice/updateNotice";
+                index = layer.open({
+                    type: 1,
+                    title: '编辑新闻',
+                    content: $("#addAndUpdateNotice"),
+                    area: ["800px", "600px"],
+                    maxmin: true,
+                    shadeClose: true,
+                    anim: 3,
+                    success: function () {
+                        form.val("dataFrm", data);
+                        layedit.setContent(1, data.content);
+                        edit=   layedit.build("LAY_demo_editor");
+                        form.render();
+                    }
+                });
+            }
+         //查看的方法
+            function showNotice(data) {
+                 index = layui.layer.open({
+                    title : "查看公告",
+                    type : 1,
+                    area:["800px","500px"],
+                    content : $("#showNoticeContent"),
+                    success : function(layero, index){
+                        setTimeout(function(){
+                            layui.layer.tips('点击此处返回公告列表', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        },500);
+                        $("#showTitle").html(data.title);
+                        $("#showTime").html(data.createtime);
+                        $("#showOpername").html(data.opername);
+                        $("#showContent").html(data.content);
+                    }
+                })
+            }
+
+
+            //删除的方法
+            function deleteNotice(data) {
+                url = "/notice/deleteNotice";
+                layer.confirm('确定删除此公告？', {icon: 3, title: '提示信息'}, function (index) {
+                    $.post(url, {
+                        id: data.id  //将需要删除的id作为参数传入
+                    }, function (data) {
+                        tableIns.reload();
+                        layer.msg(data.message);
+                        layer.close(index);
+                    })
+                });
+            }
+
+            //提交保存
+            form.on("submit(doSubmit)", function (obj) {
+
+                var params = layedit.getContent(edit);
+                obj.field.content = params;
+
+                console.log(obj.field);
+
+                $.post(url,obj.field,function (result) {
+                    if (result.code > 0) {
+                        //成功
+                        layer.msg(result.message);
+                    }
+                    tableIns.reload();
+                    layer.close(index);
+                });
+                return false;
+            })
+        });
+</script>
+</body>
+</html>

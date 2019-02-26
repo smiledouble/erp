@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>供应商管理</title>
+    <link rel="stylesheet" href="/resources/layui/css/layui.css">
+    <script type="text/javascript" src="/resources/layui/layui.js"></script>
+</head>
+
+<body>
+
+<!--查询开始-->
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>查询条件</legend>
+</fieldset>
+<form class="layui-form"  id="searchFrm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">供应商名称:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="providername"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">供应商电话:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="telephone"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">联系人:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="connectionperson"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center;">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="doSearch">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<!--查询结束-->
+
+
+<!--设置加载数据的容器开始-->
+<table class="layui-hide" id="providerGrid" lay-filter="providerGrid"></table>
+
+<!--头部的工具栏-->
+<script type="text/html" id="topBar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="add">添加</button>
+        <button type="button" class="layui-btn  layui-btn-sm layui-btn-danger" lay-event="batchDelete">批量删除</button>
+    </div>
+</script>
+
+<!--行内工具-->
+<script type="text/html" id="rightBar">
+    <a class="layui-btn layui-btn-xs" lay-event="update">查看/修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+</script>
+
+<!--设置加载数据的容器结束-->
+
+<!-- 添加修改开始 -->
+<div id="addAndUpdateProvider" style="display: none;">
+    <form class="layui-form"  id="dataFrm" lay-filter="dataFrm" style="margin: 10px">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">供应商名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="providername"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司电话:</label>
+            <div class="layui-input-block">
+                <input type="text" name="telephone"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮编:</label>
+            <div class="layui-input-block">
+                <input type="text" name="zip"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司地址:</label>
+            <div class="layui-input-block">
+                <input type="text" name="address"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人:</label>
+            <div class="layui-input-block">
+                <input type="text" name="connectionperson"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人电话:</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱:</label>
+            <div class="layui-input-block">
+                <input type="text" name="email"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开户银行:</label>
+            <div class="layui-input-block">
+                <input type="text" name="bank"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">传真:</label>
+            <div class="layui-input-block">
+                <input type="text" name="fax"  autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否有效</label>
+            <div class="layui-input-block">
+                <input type="radio" name="available" value="1" title="是" checked>
+                <input type="radio" name="available" value="0" title="否" >
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 添加修改结束-->
+
+
+<script>
+    layui.use(['element','form','table','jquery','layer'],function () {
+        var element = layui.element;
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+
+
+
+        //加载数据表格
+        var tableinit = table.render({
+            elem: '#providerGrid'
+            ,url:'/provider/loadAllProvider'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度
+            ,height:'full-180'
+            ,title:'用户列表'
+            ,text:'<font>查无数据</font>'
+            ,defaultToolbar:['print','filter']
+            ,cols: [ [
+                {type:'checkbox',width:100}
+                ,{type:'numbers',title:'序号',width:80}
+                ,{field:'id', width:80,align:'center', title: 'ID'}
+                ,{field:'providername',width:150,align:'center',  title: '供应商姓名'}
+                ,{field:'zip',align:'center', title: '供应商邮编'}
+                ,{field:'address',align:'center',  title: '公司地址'}
+                ,{field:'telephone',align:'center', title: '供应商电话'}
+                ,{field:'connectionperson',align:'center', title: '联系人'}
+                ,{field:'phone',align:'center', title: '联系人电话'}
+                ,{field:'bank',align:'center', title: '开户银行'}
+                ,{field:'account',align:'center', title: '银行账号'}
+                ,{field:'email',align:'center', title: '邮编'}
+                ,{field:'fax',align:'center', title: '传真'}
+                ,{field:'available',align:'center', title: '是否有效',templet:function(d){
+                    return d.available==1?'<font color=green>有效</font>':'<font color=red>无效</font>'
+                    }}
+                ,{fixed: 'right',align:'center', title:'操作', toolbar: '#rightBar', width:200}
+            ] ]
+            ,page:true
+            ,toolbar: '#topBar'
+            ,limit:5
+            ,limits:[5,10,15]
+        });
+
+        //查询
+        $("#doSearch").click(function () {
+            var param = $("#searchFrm").serialize();
+            tableinit.reload({url:'/provider/loadAllProvider?'+param});
+            $("#searchFrm")[0].reset();
+        });
+
+        //监听表头工具栏事件
+        table.on('toolbar(providerGrid)',function (obj) {
+            switch (obj.event) {
+                case 'add':
+                    layer.msg("添加");
+                    toAddProvider();
+                    break;
+                case 'batchDelete':
+                    layer.msg("批量删除");
+                    var checkStatus = table.checkStatus('providerGrid');//test就是<table id="test">
+                    layer.msg(JSON.stringify(checkStatus.data));
+                    break;
+            }
+        });
+
+        //监听行内工具栏事件
+        table.on('tool(providerGrid)',function (obj) {
+            var data = obj.data; //获得当前行数据
+            switch(obj.event){
+                case 'update':
+                    toUpdateProvider(data);
+                    break;
+                case 'delete':
+                    layer.confirm('确定删除此供应商？', {icon: 3, title: '提示信息'}, function (index) {
+                        $.post("/provider/deleteProvider", {
+                            id: data.id  //将需要删除的nId作为参数传入
+                        }, function (data) {
+                            layer.msg(data.message);
+                            tableinit.reload();
+                            layer.close(index);
+                        });
+
+                    });
+                    break;
+
+            }
+        });
+
+        var url;//提交的url
+        var index;//要关闭的弹出层索引
+
+        //添加用户
+        function toAddProvider() {
+            url = '/provider/addProvider';
+            index = layer.open({
+                type:1,
+                title:'添加用户',
+                content:$("#addAndUpdateProvider"),  //type=1时使用
+                skin:'layui-layer-molv',//设置皮肤
+                area: ['1000px', '500px'],//设置宽高
+                shade:0.5,//设置遮罩的透明度
+                shadeClose:true,//设置点击遮罩是否关闭弹出层
+                maxmin:true, //是否显示最大化和最小化的按钮  该参数值对type:1和type:2有效
+                success:function(){
+                    $("#dataFrm")[0].reset();
+                }
+            });
+        }
+
+        //修改用户
+        function toUpdateProvider(data) {
+            url = '/provider/updateProvider';
+            index = layer.open({
+                type:1,
+                title:'修改用户',
+                content:$("#addAndUpdateProvider"),  //type=1时使用
+                skin:'layui-layer-molv',//设置皮肤
+                area: ['1000px', '500px'],//设置宽高
+                shade:0.5,//设置遮罩的透明度
+                shadeClose:true,//设置点击遮罩是否关闭弹出层
+                maxmin:true, //是否显示最大化和最小化的按钮  该参数值对type:1和type:2有效
+                success:function(){
+                    form.val('dataFrm',data);
+                    form.render();
+                }
+            });
+        }
+
+        //查看
+
+        //保存
+        form.on('submit(doSubmit)',function (obj) {
+            $.post(url,obj.field,function(result){
+                layer.msg(result.message);
+                tableinit.reload();
+                layer.close(index);
+            });
+            return false;//阻止同步提交
+        });
+
+    });
+</script>
+</body>
+</html>

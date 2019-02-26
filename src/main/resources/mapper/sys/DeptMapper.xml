@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.sys.mapper.DeptMapper">
+    <resultMap id="BaseResultMap" type="com.cxs.sys.domain.Dept">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="pid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="open" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="parent" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="loc" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="available" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="ordernum" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, pid, name, open, parent, remark, loc, available, ordernum
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_dept
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.cxs.sys.domain.Dept">
+    insert into sys_dept (id, pid, name, 
+      open, parent, remark, 
+      loc, available, ordernum
+      )
+    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{open,jdbcType=INTEGER}, #{parent,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{loc,jdbcType=VARCHAR}, #{available,jdbcType=INTEGER}, #{ordernum,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.cxs.sys.domain.Dept">
+        insert into sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="open != null">
+                open,
+            </if>
+            <if test="parent != null">
+                parent,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="loc != null">
+                loc,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+            <if test="ordernum != null">
+                ordernum,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="open != null">
+                #{open,jdbcType=INTEGER},
+            </if>
+            <if test="parent != null">
+                #{parent,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loc != null">
+                #{loc,jdbcType=VARCHAR},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=INTEGER},
+            </if>
+            <if test="ordernum != null">
+                #{ordernum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cxs.sys.domain.Dept">
+        update sys_dept
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="open != null">
+                open = #{open,jdbcType=INTEGER},
+            </if>
+            <if test="parent != null">
+                parent = #{parent,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loc != null">
+                loc = #{loc,jdbcType=VARCHAR},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+            <if test="ordernum != null">
+                ordernum = #{ordernum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cxs.sys.domain.Dept">
+    update sys_dept
+    set pid = #{pid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      open = #{open,jdbcType=INTEGER},
+      parent = #{parent,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      loc = #{loc,jdbcType=VARCHAR},
+      available = #{available,jdbcType=INTEGER},
+      ordernum = #{ordernum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <!--分页查询-->
+    <select id="queryAllDept" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        <where>
+            <if test="name!=null and name!=''">
+                and name like concat("%",#{name},"%")
+            </if>
+            <if test="loc!=null and loc!=''">
+                and loc like concat("%",#{loc},"%")
+            </if>
+            <if test="remark!=null and remark!=''">
+                and remark like concat("%",#{remark},"%")
+            </if>
+            <if test="id!=null">
+                and (id=#{id} or pid=#{id})
+            </if>
+
+        </where>
+    </select>
+
+    <!--查询最大的排序码-->
+    <select id="queryMaxNumber" resultType="java.lang.Integer">
+        select max(ordernum) from sys_dept
+    </select>
+
+    <!--查询改部门有没有子部门-->
+    <select id="queryDeptHasChild" resultType="java.lang.Integer">
+        select count(1) from sys_dept where pid=#{value}
+    </select>
+
+</mapper>
