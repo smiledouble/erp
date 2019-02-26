@@ -67,6 +67,15 @@ public class ProviderController {
         return nodes;
     }
 
+    /**
+     * 加载所有的可用的供应商
+     * @return
+     */
+    @PostMapping(MODEL+"/loadAllProviderForList")
+    public List<Provider> loadAllProviderForList(ProviderVo providerVo){
+        return this.providerService.queryAllProvider(providerVo);
+    }
+
 
     /**
      * 添加供应商

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @Author:chenxiaoshuang
@@ -44,6 +45,16 @@ public class GoodsController {
         }
         return this.goodsService.loadAllGoods(goodsVo);
     }
+
+    /**
+     * 根据供应商的id查询该供应商下面的商品
+     * @return
+     */
+    @PostMapping(MODEL+"/loadGoodsByProviderId")
+    public List<Goods> loadGoodsByProviderId(Integer providerid){
+        return this.goodsService.queryGoodsByProviderId(providerid);
+    }
+
 
     /**
      * 添加商品

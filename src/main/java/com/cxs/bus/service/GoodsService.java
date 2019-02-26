@@ -4,6 +4,8 @@ import com.cxs.bus.domain.Goods;
 import com.cxs.bus.vo.GoodsVo;
 import com.cxs.sys.utils.DataGridView;
 
+import java.util.List;
+
 /**
  * @Author:chenxiaoshuang
  * @Date:2019/2/21 15:24
@@ -20,4 +22,6 @@ public interface GoodsService {
     Integer deleteGoods(Integer id);
 
     Goods queryOneByGoodsId(Integer id);
+
+    List<Goods> queryGoodsByProviderId(Integer id);
 }

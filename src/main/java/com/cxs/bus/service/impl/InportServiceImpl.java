@@ -7,11 +7,13 @@ import com.cxs.bus.mapper.InportMapper;
 import com.cxs.bus.service.InportService;
 import com.cxs.bus.vo.InportVo;
 import com.cxs.sys.utils.DataGridView;
+import com.cxs.sys.utils.WebUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +54,8 @@ public class InportServiceImpl implements InportService {
         Goods goods = this.goodsMapper.selectByPrimaryKey(inportVo.getGoodsid());
         goods.setNumber(goods.getNumber() + inportVo.getNumber());
         this.goodsMapper.updateByPrimaryKeySelective(goods);
+        inportVo.setOperateperson(WebUtils.getCurrentUser().getName());
+        inportVo.setInporttime(new Date());
         return this.inportMapper.insertSelective(inportVo);
     }
 

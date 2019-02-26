@@ -65,4 +65,9 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods queryOneByGoodsId(Integer id) {
         return this.goodsMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<Goods> queryGoodsByProviderId(Integer id) {
+        return this.goodsMapper.queryGoodsByProviderId(id);
+    }
 }

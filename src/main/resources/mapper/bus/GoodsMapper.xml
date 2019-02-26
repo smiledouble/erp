@@ -218,4 +218,11 @@
         </where>
     </select>
 
+    <!-- 根据供应商编号查询商品 -->
+    <select id="queryGoodsByProviderId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bus_goods
+        where providerid = #{value}
+    </select>
 </mapper>

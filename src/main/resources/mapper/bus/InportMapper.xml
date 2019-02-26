@@ -171,6 +171,7 @@
                 and inporttime <![CDATA[<=]]> #{endTime}
             </if>
         </where>
+        order by id desc
     </select>
 
 </mapper>

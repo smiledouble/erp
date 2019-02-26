@@ -19,4 +19,6 @@ public interface GoodsMapper {
 
     //全查询商品
     List<Goods> queryAllGoods(Goods goods);
+
+    List<Goods> queryGoodsByProviderId(Integer id);
 }
