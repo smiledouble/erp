@@ -25,6 +25,6 @@ public class NoticeVo extends Notice {
     //分页
     private Integer page;
     private Integer limit;
-    private Integer a;
+    private Integer ss;
 
 }

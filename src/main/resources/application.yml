@@ -41,7 +41,7 @@ spring:
       location: 'E:/image/temp'
       max-file-size: 10MB
   thymeleaf:
-    cache: false #禁用thyemleaf的缓存
+    cache: true #禁用thyemleaf的缓存
   druid:
     web:
       login-username: root

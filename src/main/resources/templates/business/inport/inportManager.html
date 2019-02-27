@@ -235,7 +235,6 @@
         //监控供应商下拉事件
         form.on("select(providerid)",function(data){
         	var providerid=data.value;
-        	alert(data.value);
         	$.post("/goods/loadGoodsByProviderId",{providerid:providerid},function(obj){
         		$("#goodsid").html("<option value=''>请选择商品</option>");
         		for(var i=0;i<obj.length;i++){
