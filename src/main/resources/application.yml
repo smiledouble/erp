@@ -51,10 +51,8 @@ spring:
       filters-url-patterns: /*
       exclusions: '*.js,*.gif,*.jpg,*.jpeg,*.png,*.css,*.ico,*.jsp,/druid/*'
       druid-registration-url: '/druid/*'
-
 fileupload:
   uploadlocation: 'E:/image/'
-
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -76,5 +74,3 @@ shiro:
     login-url: login.html
     success-url: index.html
     unauthorized-url: /error
-
-

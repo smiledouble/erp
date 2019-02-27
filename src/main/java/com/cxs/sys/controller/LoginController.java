@@ -67,17 +67,5 @@ public class LoginController {
         return baseResult;
     }
 
-/*
-    @GetMapping(MODEL+"/logOut")
-    public ModelAndView logOut(){
-        HttpSession session = WebUtils.getCurrentSession();
-       // session.removeAttribute("user");
-        //session.invalidate();
-        HttpServletRequest request = WebUtils.getCurrentHttpServletRequest();
-        String referer = request.getHeader("Referer");
-        System.out.println(referer);
-        ModelAndView view = new ModelAndView("login");
-        return view;
-    }*/
 
 }
